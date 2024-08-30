@@ -1,0 +1,50 @@
+.container {
+    position: absolute;
+    width: 15rem;
+    z-index: 1;
+    width: 100;
+
+}
+
+.slidbar {
+    background-color: white;
+    cursor: pointer;
+    position: absolute; /* Make it absolute relative to its container */
+    top: 0; /* Position it at the top */
+    left: -80%; /* Initially hidden off-screen to the left */
+    width: 200px; /* Set desired sidebar width */
+    transition: all 0.3s ease-in-out; /* Add smooth transition for opening/closing */
+    margin-top: 1rem;
+  }
+ 
+.sidebar-icon {
+    width: 3rem;
+    height: 3rem;
+
+}
+
+.avatar {
+    height: 3rem;
+    width: 3rem;
+}
+
+.avatar button {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    overflow: hidden;
+    /* Ensures the image does not overflow the button */
+    padding: 0;
+    /* Remove default button padding */
+    border: none;
+    /* Remove default button border */
+    background: none;
+    /* Remove default button background */
+}
+
+.avatar img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
