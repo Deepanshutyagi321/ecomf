@@ -6,7 +6,7 @@ import axios from "axios";
 import { Link, useNavigate , useParams } from "react-router-dom"
 import "./show.css"
 import Layout from "./Layout";
-
+const API_URL = import.meta.env.VITE_BACKEND_URL || '/api'
 
 export default function show() {
     let [productData, setProductData] = useState();
@@ -15,7 +15,7 @@ export default function show() {
 
     useEffect(() => {
         const fatchdata = async () => {
-            await axios(`/api/product/${id}`)
+            await axios(`${API_URL}/api/product/${id}`)
                 .then((response) => {
                     setProductData(response.data.product)
                 }).catch((err) => {
@@ -26,13 +26,13 @@ export default function show() {
     }, []);
 
     const Delete = async () => {
-        let res = await axios.delete(`/api/product/${id}`);
+        let res = await axios.delete(`${API_URL}/api/product/${id}`);
         console.log(res);
     }
     const AddToCart = async () => {
         
         try{
-            let res = await axios.post(`/api/product/cart/${id}`);
+            let res = await axios.post(`${API_URL}/api/product/cart/${id}`);
             console.log(res.data);
             
                 

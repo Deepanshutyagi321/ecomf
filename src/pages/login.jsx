@@ -2,8 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import Layout from "./Layout";
 import { useNavigate } from "react-router-dom";
-import "dotenv/config"
-const API_URL = process.env.REACT_APP_BACKEND_URL || '/api';
+const API_URL = import.meta.env.VITE_BACKEND_URL || '/api';
 export default function Login() {
     const [login, setLogin] = useState({ username: '', password: '' });
     const [loading, setLoading] = useState(false);  // Loading state
@@ -21,7 +20,7 @@ export default function Login() {
         setLoading(true);  // Start loading
 
         try {
-            const response = await axios.post(`${API_URL}/login`, login);
+            const response = await axios.post(`${API_URL}/api/login`, login);
             const { accessToken, refreshToken } = response.data.data;
             
             if (accessToken && refreshToken) {

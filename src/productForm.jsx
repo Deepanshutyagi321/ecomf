@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-
+const API_URL = import.meta.env.VITE_BACKEND_URL || '/api'
 export default function ProductForm({ productId }) {
  
     const [formData, setFormData] = useState({
@@ -20,7 +20,7 @@ export default function ProductForm({ productId }) {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`/api/product/${productId}`);
+                const response = await axios.get(`${API_URL}/api/product/${productId}`);
                 const productData = response.data.product;
                 setFormData({
                     title: productData.title,
@@ -56,7 +56,7 @@ export default function ProductForm({ productId }) {
                 // await axios.put(`/api/product/${productId}`, formData);
                 await axios({
                     method: 'put',
-                    url: `/api/product/${productId}/edit`,
+                    url: `${API_URL}/api/product/${productId}/edit`,
                     data: { formData }
                 });
                 console.log(productId);
@@ -66,7 +66,7 @@ export default function ProductForm({ productId }) {
                 console.log(formData);
                 await axios({
                     method: 'post',
-                    url: '/api/product',
+                    url: `/api/product`,
                     data: { formData }
                 } );
                

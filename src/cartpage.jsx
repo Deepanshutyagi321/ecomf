@@ -1,11 +1,7 @@
 import axios from "axios";
 import "./cartPage.css"
-import "dotenv/config"
-const API_URL = process.env.REACT_APP_BACKEND_URL || '/api';
+const API_URL = import.meta.env.VITE_BACKEND_URL || '/api';
 export default function CartPage(pageData) {
-
- 
-
   let deleteIteam = async (event) => {
     event.preventDefault();
     let res = await axios.delete(`${API_URL}/cart/${pageData.item.id}`);
