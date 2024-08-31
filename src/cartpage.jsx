@@ -1,11 +1,14 @@
 import axios from "axios";
 import "./cartPage.css"
+import "dotenv/config"
+const API_URL = process.env.REACT_APP_BACKEND_URL || '/api';
 export default function CartPage(pageData) {
 
+ 
 
   let deleteIteam = async (event) => {
     event.preventDefault();
-    let res = await axios.delete(`/api/cart/${pageData.item.id}`);
+    let res = await axios.delete(`${API_URL}/cart/${pageData.item.id}`);
     console.log(res);
     if (res.status === 200) {
       window.location.reload(); // Reload the page
