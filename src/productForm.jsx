@@ -66,7 +66,7 @@ export default function ProductForm({ productId }) {
                 console.log(formData);
                 await axios({
                     method: 'post',
-                    url: `/api/product`,
+                    url: `${API_URL}/api/product`,
                     data: { formData }
                 } );
                
