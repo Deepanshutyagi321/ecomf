@@ -3,7 +3,7 @@ import axios from 'axios';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import Font Awesome styles
 import "../components/slidbar.css"; // Ensure the path to your CSS file is correct
 import { useNavigate } from 'react-router-dom';
-
+const API_URL = import.meta.env.VITE_BACKEND_URL || '/api';
 export default function Slidbar(user) {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -31,8 +31,8 @@ export default function Slidbar(user) {
   const handleLogout = async () => {
     try {
       // Make a request to the backend to logout
-      await axios.post("/api/logout");
-
+     let response =  await axios.post(`${API_URL}/api/logout`,{},{withCredentials: true });
+     console.log(response)
       // Clear token from sessionStorage
       sessionStorage.removeItem("accessToken");
       sessionStorage.removeItem("refreshToken");

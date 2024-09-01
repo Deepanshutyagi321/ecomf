@@ -12,9 +12,10 @@ export default function ProductForm({ productId }) {
         category: "",
     });
     // excess the token 
-    const refreshToken = localStorage.getItem('refreshToken');
-    console.log(refreshToken);
+    const accessToken = sessionStorage.getItem('accessToken');
 
+
+    
 
     useEffect(() => {
 
@@ -34,6 +35,8 @@ export default function ProductForm({ productId }) {
             } catch (error) {
                 console.error("Error fetching product data:", error);
             }
+           
+            
         };
 
         if (productId) {
@@ -57,7 +60,8 @@ export default function ProductForm({ productId }) {
                 await axios({
                     method: 'put',
                     url: `${API_URL}/api/product/${productId}/edit`,
-                    data: { formData }
+                    data: { formData },
+                    withCredentials: true 
                 });
                 console.log(productId);
             } else {
@@ -67,7 +71,8 @@ export default function ProductForm({ productId }) {
                 await axios({
                     method: 'post',
                     url: `${API_URL}/api/product`,
-                    data: { formData }
+                    data: { formData },
+                    withCredentials: true 
                 } );
                
             }

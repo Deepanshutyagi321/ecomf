@@ -3,7 +3,7 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Import axios for making HTTP requests
 import "./Layout.css";
 import Slidbar from '../components/slidbar.jsx';
-
+const API_URL = import.meta.env.VITE_BACKEND_URL || '/api';
 const Layout = () => {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState('');
@@ -15,8 +15,8 @@ const Layout = () => {
     // Retrieve tokens from sessionStorage when component mounts
     const storedAccessToken = sessionStorage.getItem('accessToken');
     const storedRefreshToken = sessionStorage.getItem('refreshToken');
-    console.log(storedAccessToken);
-    console.log(storedRefreshToken);
+    // console.log(storedAccessToken);
+    // console.log(storedRefreshToken);
 
     if (storedAccessToken && storedRefreshToken) {
       setAccessToken(storedAccessToken);
@@ -25,7 +25,8 @@ const Layout = () => {
 
     const userProfile = async () => {
       try {
-        const response = await axios.get("/api/user");
+        const response = await axios.get(`${API_URL}/api/user`, { withCredentials: true });
+        // console.log(response)
         setUser(response.data.data.user);
         // console.log(response.data.data.user); // Handle the user profile data
       } catch (error) {
@@ -40,7 +41,7 @@ const Layout = () => {
   const search = async (event) => {
     event.preventDefault(); // Prevent form submission
     console.log(formdata)
-    let response = await axios.post("/api/product/search", formdata)
+    let response = await axios.post(`${API_URL}}/api/product/search`, formdata)
     console.log("done");
   };
   function formHandler(event) {
