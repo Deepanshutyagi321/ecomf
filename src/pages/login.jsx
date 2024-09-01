@@ -20,7 +20,10 @@ export default function Login() {
         setLoading(true);  // Start loading
 
         try {
-            const response = await axios.post(`${API_URL}/api/login`, login);
+            const response = await axios.post(`${API_URL}/api/login`, login,
+                {
+                    withCredentials: true
+                });
             const { accessToken, refreshToken } = response.data.data;
             
             if (accessToken && refreshToken) {
