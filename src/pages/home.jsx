@@ -3,7 +3,7 @@ import Cards from "../cards"
 import Carousel from "../carousel";
 import { useEffect, useState } from "react";
 import "./home.css"
-
+const API_URL = import.meta.env.VITE_BACKEND_URL || '/api';
 
 // import { Link } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ export default function Home() {
   const [productData, setProductData] = useState("");
   useEffect(() => {
     const fatchdata = async () => {
-      await axios.get("/api/product").then((response) => {
+      await axios.get(`${API_URL}/api/product`).then((response) => {
         setProductData(response.data.product);
       }).catch((err) => {
         console.log(err);
