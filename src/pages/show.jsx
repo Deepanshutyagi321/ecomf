@@ -26,7 +26,7 @@ export default function show() {
     }, []);
 
     const Delete = async () => {
-        let res = await axios.delete(`${API_URL}/api/product/${id}`);
+        let res = await axios.delete(`${API_URL}/api/product/${id}`,{withCredentials: true});
         console.log(res);
     }
     const AddToCart = async () => {
