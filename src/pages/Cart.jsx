@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import CartPage from "../cartpage";
 import Layout from "./Layout";
 import { Link } from "react-router-dom";
-
+const AI_URPL = import.meta.env.VITE_BACKEND_URL || '/api';
 
 
 export default function Cart() {
@@ -12,7 +12,7 @@ export default function Cart() {
     useEffect(() => {
         const fetchCartItems = async () => {
             try {
-                const res = await axios.get('/api/cart'); // Corrected route
+                const res = await axios.get(`${AI_URPL}/api/cart`,{withCredentials: true}); // Corrected route
                 setCartItems(res.data.cartproduct); // Assuming the response has a property named 'cartItems'
 
             } catch (error) {
