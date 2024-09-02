@@ -1,81 +1,88 @@
-
 import { useEffect, useState } from "react";
-import Verticaldots from "../verticaldots"
-
+import Verticaldots from "../verticaldots";
 import axios from "axios";
-import { Link, useNavigate , useParams } from "react-router-dom"
-import "./show.css"
+import { Link, useNavigate, useParams } from "react-router-dom";
+import "./show.css";
 import Layout from "./Layout";
-const API_URL = import.meta.env.VITE_BACKEND_URL || '/api'
 
-export default function show() {
-    let [productData, setProductData] = useState();
+const API_URL = import.meta.env.VITE_BACKEND_URL || '/api';
+
+export default function Show() {
+    const [productData, setProductData] = useState();
     const { id } = useParams();
     const navigate = useNavigate();
+    
+    // Check for the presence of the refresh token in session storage
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        const fatchdata = async () => {
-            await axios(`${API_URL}/api/product/${id}`)
-                .then((response) => {
-                    setProductData(response.data.product)
-                }).catch((err) => {
-                    console.log(err);
-                })
+        const fetchProductData = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/api/product/${id}`);
+                setProductData(response.data.product);
+            } catch (err) {
+                console.log(err);
+            }
         };
-        fatchdata();
-    }, []);
-
-    const Delete = async () => {
-        let res = await axios.delete(`${API_URL}/api/product/${id}`,{withCredentials: true});
-        console.log(res);
-    }
-    const AddToCart = async () => {
         
-        try{
-            let res = await axios.post(`${API_URL}/api/product/cart/${id}`);
-            console.log(res.data);
-            
-                
-                navigate("/product/cart"); // Perform the redirect
-            
-        }catch(err){
+        const checkAuth = () => {
+            const refreshToken = sessionStorage.getItem('refreshToken');
+            setIsAuthenticated(!!refreshToken); // Set true if token exists, otherwise false
+        };
+
+        fetchProductData();
+        checkAuth(); // Check authentication when component mounts
+    }, [id]);
+
+    const handleDelete = async () => {
+        try {
+            const res = await axios.delete(`${API_URL}/api/product/${id}`, { withCredentials: true });
+            console.log(res);
+            navigate("/"); // Redirect to homepage or another page after deletion
+        } catch (err) {
             console.log(err);
         }
-      
-    }
+    };
+
+    const handleAddToCart = async () => {
+        try {
+            const res = await axios.post(`${API_URL}/api/product/cart/${id}`, {}, { withCredentials: true });
+            console.log(res.data);
+            navigate("/product/cart"); // Redirect to the cart page after adding to cart
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <>
             <Layout />
             {productData && (
                 <div className="show-page">
-                    {console.log(productData)}
-
                     <div className="show-page-container">
-                    <div className="show-page-image-container">
-                    {/* imagae and other detail of product */}
-                        <img src={productData.productImage} alt={productData.title} className="show-image" />   
-                    </div>
-                    <span className="show-button-span">
-                            <button className="btn cart-button" onClick={AddToCart}>
-                                <h5>Add Cart</h5>
+                        <div className="show-page-image-container">
+                            <img src={productData.productImage} alt={productData.title} className="show-image" />
+                        </div>
+                        <span className="show-button-span">
+                            <button className="btn cart-button" onClick={handleAddToCart}>
+                                <h5>Add to Cart</h5>
                             </button>
                             <button className="btn cart-button"><h5>Buy</h5></button>
                         </span>
                     </div>
-                    
-                    {/* detail about product */}
+
                     <div className="show-second">
                         <div className="show-title"><h4>{productData.title}</h4></div>
-
                         <div className="show-price"><h5>&#x20B9; {productData.price}</h5></div>
                         <div className="show-description">{productData.description}</div>
-                        <button onClick={Delete}>Delete</button>
-                    </div>
-                    
 
+                        {/* Show Delete button only if authenticated */}
+                        {isAuthenticated && (
+                            <button onClick={handleDelete}>Delete</button>
+                        )}
+                    </div>
                 </div>
             )}
         </>
     );
-
 }
