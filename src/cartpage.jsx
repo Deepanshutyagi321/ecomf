@@ -11,7 +11,7 @@ export default function CartPage(pageData) {
       const res = await axios.delete(`${API_URL}/api/cart/${pageData.item.id}`);
       console.log(res);
       if (res.status === 200) {
-        window.location.reload(); // Reload the page
+        // window.location.reload(); // Reload the page
       } else {
         console.error("Failed to delete the item");
       }
